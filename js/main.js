@@ -2,7 +2,7 @@ import { ICONS_SRC, ELEMENT, MONTHES } from "./data.js";
 import {FAV_CITIES, LIKE_BUTTON, likeInteraction, likeIconUpdate, addToFavList, createElement } from "./favorites.js";
 import {saveCurrentCity, saveFavList, getLastCity, getSavedList, renderSavedList} from "./storage.js";
 
-const serverUrl = "http://api.openweathermap.org/data/2.5/";
+const serverUrl = "https://api.openweathermap.org/data/2.5/";
 const weather = 'weather';
 const FORECAST = 'forecast';
 const apiKey = "ff9a92deb11480f9014deb01fb57bd09";
@@ -126,7 +126,6 @@ function createForecastList(data, list) {
 
 		list.push(object);
 	}
-	console.log(list);
 }
 
 
@@ -143,15 +142,10 @@ function calcLocalTime(time, targetShift){
 }
 
 function renderNow(){
-	
-	console.log(SEARCH_TARGET_WEATHER_OBJECT);
-
-	let tab = document.querySelector("#Now");
+		let tab = document.querySelector("#Now");
  	let currentTemp = tab.querySelector(".temperature");
 	let currentCity = tab.querySelector(".city-wrapper").querySelector(".active-city");
 	let weatherIco = tab.querySelector(".icon");
-
-	console.log(SEARCH_TARGET_WEATHER_OBJECT.state);
 
 	currentTemp.textContent = SEARCH_TARGET_WEATHER_OBJECT.temp;
 	currentCity.textContent = SEARCH_TARGET_WEATHER_OBJECT.name;
@@ -165,8 +159,6 @@ function renderDetails() {
 			continue;
 		else
 			element.textContent = SEARCH_TARGET_WEATHER_OBJECT[key];
-
-		console.log(element);
 	}	
 }
 
