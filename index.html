@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Weather</title>
+	<link rel="stylesheet" href="css/normalise.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,900;1,400&display=swap"
+		rel="stylesheet" />
+</head>
+
+<body>
+	<main class="main">
+		<div class="app-container">
+			<div class="search-wrapper">
+				<form class="search-form" name="search">
+					<input type="text" placeholder="Search city" class="search" name="city" autocomplete="off" />
+					<button type="submit" class="serach-button"></button>
+				</form>
+			</div>
+
+			<div class="weather-wrapper">
+				<div id="Now" class="tabcontent now-tab">
+					<p class="temperature temperature-main">18°</p>
+					<img class="icon" src="./img/weather-state/clouds.svg" alt="icon" />
+					<div class="city-wrapper">
+						<p class="active-city">Rome</p>
+						<img class="like" src="./img/heart-shape.svg" alt="like" />
+					</div>
+				</div>
+
+
+				<div id="Details" class="tabcontent details-tab">
+					<h2 id="name">City</h2>
+					<ul class="details-wrapper">
+						<li class="details-item">Temperature:
+							<span id="temp"></span>
+						</li>
+						<li class="details-item">Feels like:
+							<span id="feels_like"></span>
+						</li>
+						<li class="details-item">Weather:
+							<span id="state"></span>
+						</li>
+						<li class="details-item">Sunrise:
+							<span id="sunrise"></span>
+						</li>
+						<li class="details-item">Sunset:
+							<span id="sunset"></span>
+						</li>
+						
+					</ul>
+				</div>
+
+
+				<div id="Forecast" class="tabcontent forecast-tab">
+					<h2 class="forecast-city">City</h2>
+					<div class="forecast-scroll">
+						<div class="forecast-wrapper">
+							
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-buttons-wrapper">
+					<button type="button" class="tablink now-button active" onclick="openTab(event, 'Now')">
+						Now
+					</button>
+					<button type="button" class="tablink details-button" onclick="openTab(event, 'Details')">
+						Details
+					</button>
+					<button type="button" class="tablink forecast-button" onclick="openTab(event, 'Forecast')">
+						Forecast
+					</button>
+				</div>
+			</div>
+
+			<div class="locations-wrapper">
+				<h2 class="added-locations">Added Locations:</h2>
+				<ul class="city-list-wrapper">
+					
+				</ul>
+			</div>
+		</div>
+	</main>
+
+	<script src="js/tabs.js"></script>
+	<script type="module" src="js/main.js"></script>
+</body>
+
+</html>
