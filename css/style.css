@@ -286,6 +286,10 @@ ul {
 	justify-content: space-between;
 }
 
+.forecastTime {
+	justify-self: end;
+}
+
 .forecastFeelsLike {
 	align-self: center;
 }
