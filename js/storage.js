@@ -6,8 +6,8 @@ function saveCurrentCity() {
 	localStorage.setItem('now', currentCity);
 }
 
-function saveFavList() {
-	let favList = JSON.stringify(FAV_CITIES);
+function saveFavList(list) {
+	let favList = JSON.stringify(list);
 	localStorage.setItem('list', favList);
 }
 
@@ -24,7 +24,7 @@ function getSavedList() {
 
 function renderSavedList(list) {
 	list.forEach(element => {
-		addToFavList(element.name)
+		addToFavList(element)
 	});
 }
 

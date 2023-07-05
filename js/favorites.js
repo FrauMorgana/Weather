@@ -3,28 +3,29 @@ import { ICONS_SRC, ELEMENT, CLASS } from "./data.js";
 import { getSavedList, saveFavList } from "./storage.js";
 
 let FAV_CITIES = [];
+const FAV_CITIES_STORAGE = getSavedList() || [];
 const LIKE_BUTTON = document.querySelector(".like");
 
-function likeInteraction(){ 
-	let objectClone = Object.assign({}, SEARCH_TARGET_WEATHER_OBJECT);
+function likeInteraction() {
+	const currentCityName = SEARCH_TARGET_WEATHER_OBJECT.name;
+	const cityIndex = FAV_CITIES_STORAGE.indexOf(currentCityName);
 
-	if(FAV_CITIES.find(item => item.name == SEARCH_TARGET_WEATHER_OBJECT.name)){
-		let filtered = FAV_CITIES.filter(item => item.name !== SEARCH_TARGET_WEATHER_OBJECT.name);
-		FAV_CITIES = filtered;
-		deleteFromFavList(objectClone.name);
+
+	if (FAV_CITIES_STORAGE.includes(currentCityName)) {
+		FAV_CITIES_STORAGE.splice(cityIndex, 1);
+		deleteFromFavList(currentCityName);
 	}
-	else{
-		FAV_CITIES.push(objectClone);
-		addToFavList(objectClone.name);
-	};
-	
-	saveFavList();
+	else {
+		FAV_CITIES_STORAGE.push(currentCityName);
+		addToFavList(currentCityName);
+	}
 
-	console.log(FAV_CITIES);
+	saveFavList(FAV_CITIES_STORAGE);
+	console.log(FAV_CITIES_STORAGE);
 }
 
 function likeIconUpdate(){
-	(FAV_CITIES.find(item => item.name == SEARCH_TARGET_WEATHER_OBJECT.name)) ? 
+	(FAV_CITIES_STORAGE.find(item => item == SEARCH_TARGET_WEATHER_OBJECT.name)) ? 
 		LIKE_BUTTON.src = ICONS_SRC.HERAT_BLACK :
 		LIKE_BUTTON.src = ICONS_SRC.HEART;
 

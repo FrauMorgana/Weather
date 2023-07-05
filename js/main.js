@@ -26,14 +26,9 @@ FORM.addEventListener('submit', formHandler);
 LIKE_BUTTON.addEventListener('click', likeHandler);
 ELEMENT.FAV_LIST.addEventListener('click', favListHandler);
 
-function likeHandler(){
-	likeInteraction();
-	likeIconUpdate();
-}
 
-function onloadTab(){console.log(localStorage);
+function onloadTab(){
 	if (localStorage.length < 2){
-		
 		getWeatherData(serverUrl, weather, DEFAULT_CITY, apiKey);
 		getWeatherData(serverUrl, FORECAST, DEFAULT_CITY, apiKey);
 	}
@@ -43,6 +38,7 @@ function onloadTab(){console.log(localStorage);
 		getWeatherData(serverUrl, FORECAST, getLastCity(), apiKey);
 		
 	}
+	console.log(localStorage);
 }
 
 function formHandler(event) {
@@ -60,6 +56,10 @@ function favListHandler(event){
 	} else return null;
 }
 
+function likeHandler(){
+	likeInteraction();
+	likeIconUpdate();
+}
 
 function getWeatherData(serverUrl, end, cityName, apiKey) {
 	const url = `${serverUrl}${end}?q=${cityName}&appid=${apiKey}`;
