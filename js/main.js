@@ -31,8 +31,9 @@ function likeHandler(){
 	likeIconUpdate();
 }
 
-function onloadTab(){
-	if (localStorage.length == 0){
+function onloadTab(){console.log(localStorage);
+	if (localStorage.length < 2){
+		
 		getWeatherData(serverUrl, weather, DEFAULT_CITY, apiKey);
 		getWeatherData(serverUrl, FORECAST, DEFAULT_CITY, apiKey);
 	}
@@ -67,9 +68,9 @@ function getWeatherData(serverUrl, end, cityName, apiKey) {
 			.then((response) => response.json())
 			.then((weatherData) => SEARCH_TARGET_WEATHER(weatherData, SEARCH_TARGET_WEATHER_OBJECT))
 			.then(() => renderNow())
+			.then(() => renderDetails())
 			.then(() => saveCurrentCity())
 			.then(() => likeIconUpdate())
-			.then(() => renderDetails())
 			.catch(error => alert(error.message));
 	}
 	else {
@@ -142,7 +143,7 @@ function calcLocalTime(time, targetShift){
 }
 
 function renderNow(){
-		let tab = document.querySelector("#Now");
+	let tab = document.querySelector("#Now");
  	let currentTemp = tab.querySelector(".temperature");
 	let currentCity = tab.querySelector(".city-wrapper").querySelector(".active-city");
 	let weatherIco = tab.querySelector(".icon");
