@@ -1,8 +1,8 @@
-import { SEARCH_TARGET_WEATHER_OBJECT } from "./main.js";
-import { FAV_CITIES, addToFavList } from "./favorites.js";
+import { TARGET_WEATHER_OBJECT } from "./main.js";
+import { addToFavList } from "./render.js";
 
 function saveCurrentCity() {
-	let currentCity = JSON.stringify(SEARCH_TARGET_WEATHER_OBJECT);
+	let currentCity = JSON.stringify(TARGET_WEATHER_OBJECT);
 	localStorage.setItem('now', currentCity);
 }
 

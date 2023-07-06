@@ -1,13 +1,12 @@
-import { SEARCH_TARGET_WEATHER_OBJECT } from "./main.js";
+import { TARGET_WEATHER_OBJECT } from "./main.js";
 import { ICONS_SRC, ELEMENT, CLASS } from "./data.js";
 import { getSavedList, saveFavList } from "./storage.js";
+import { addToFavList, deleteFromFavList} from "./render.js"
 
-let FAV_CITIES = [];
 const FAV_CITIES_STORAGE = getSavedList() || [];
-const LIKE_BUTTON = document.querySelector(".like");
 
 function likeInteraction() {
-	const currentCityName = SEARCH_TARGET_WEATHER_OBJECT.name;
+	const currentCityName = TARGET_WEATHER_OBJECT.name;
 	const cityIndex = FAV_CITIES_STORAGE.indexOf(currentCityName);
 
 
@@ -25,37 +24,12 @@ function likeInteraction() {
 }
 
 function likeIconUpdate(){
-	(FAV_CITIES_STORAGE.find(item => item == SEARCH_TARGET_WEATHER_OBJECT.name)) ? 
-		LIKE_BUTTON.src = ICONS_SRC.HERAT_BLACK :
-		LIKE_BUTTON.src = ICONS_SRC.HEART;
+	(FAV_CITIES_STORAGE.find(item => item == TARGET_WEATHER_OBJECT.name)) ? 
+		ELEMENT.LIKE_BUTTON.src = ICONS_SRC.HERAT_BLACK :
+		ELEMENT.LIKE_BUTTON.src = ICONS_SRC.HEART;
 
-	return LIKE_BUTTON;
+	return ELEMENT.LIKE_BUTTON;
 }
 
-function createElement(
-	tag,
-	className,
-	textContent = '',
-	alt = '',
-	src = ''
- ){
-	const element = document.createElement(tag);
-	element.className = className;
-	element.textContent = textContent;
-	element.alt = alt;
-	element.src = src;
-	return element;
- };
 
- function addToFavList(cityName){
-	let favCity = createElement('li', CLASS.FAV_CITY, cityName);
-	favCity.setAttribute('id', cityName);
-	ELEMENT.FAV_LIST.prepend(favCity);
- }
-
- function deleteFromFavList(cityName){
-	let favCity = document.getElementById(cityName);
-	favCity.remove();
- }
-
- export {FAV_CITIES, LIKE_BUTTON, likeInteraction, likeIconUpdate, addToFavList, createElement};
+ export {likeInteraction, likeIconUpdate};

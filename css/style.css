@@ -80,8 +80,8 @@ body {
 
 .locations-wrapper {
 	border-left: var(--border);
-	overflow: auto;
-	scrollbar-width: none;
+	display: flex;
+   flex-direction: column;
 }
 
 .added-locations{
@@ -230,6 +230,15 @@ ul {
 
 /*----FAVORITS TAB------*/
 
+.city-list-scroll {
+	overflow: auto;
+	-ms-overflow-style: none;
+  	scrollbar-width: none;
+}
+.city-list-scroll::-webkit-scrollbar {
+	display: none;
+ }
+
 .city-list-wrapper{
 	padding: 10% 0 10% 4%;
 	display: flex;
@@ -237,6 +246,7 @@ ul {
 	justify-content: space-between;
 	gap: 5%;
 	overflow: hidden;
+	
 }
 
 .city-in-fav-list {
