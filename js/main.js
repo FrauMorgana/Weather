@@ -1,7 +1,7 @@
 import { DATA, ELEMENT, MONTHES } from "./data.js";
-import {likeInteraction, likeIconUpdate, } from "./favorites.js";
+import {likeInteraction, } from "./favorites.js";
 import {saveCurrentCity, saveFavList, getLastCity, getSavedList, renderSavedList} from "./storage.js";
-import { renderNow, renderDetails, renderForecast } from "./render.js";
+import { renderNow, renderDetails, renderForecast, likeIconUpdate } from "./render.js";
 
 const FORECAST_LIST = [];
 const TARGET_WEATHER_OBJECT = {};

@@ -2,18 +2,17 @@ import { TARGET_WEATHER_OBJECT } from "./main.js";
 import { addToFavList } from "./render.js";
 
 function saveCurrentCity() {
-	let currentCity = JSON.stringify(TARGET_WEATHER_OBJECT);
+	let currentCity = JSON.stringify(TARGET_WEATHER_OBJECT.name);
 	localStorage.setItem('now', currentCity);
 }
 
 function saveFavList(list) {
-	let favList = JSON.stringify(list);
+	let favList = JSON.stringify([...list]);
 	localStorage.setItem('list', favList);
 }
 
 function getLastCity() {
-	let cityObject = JSON.parse(localStorage.getItem('now'));
-	let lastCity = cityObject.name;
+	let lastCity = JSON.parse(localStorage.getItem('now'));
 	return lastCity;
 }
 

@@ -1,5 +1,6 @@
-import {FORECAST_LIST, TARGET_WEATHER_OBJECT} from "./main.js"
-import { CLASS, ELEMENT } from "./data.js";
+import {FORECAST_LIST, TARGET_WEATHER_OBJECT} from "./main.js";
+import { CLASS, ELEMENT, ICONS_SRC } from "./data.js";
+import {FAV_CITIES_STORAGE} from "./favorites.js";
 
 function renderNow(){
 	ELEMENT.TEMPERATURE_NOW.textContent = TARGET_WEATHER_OBJECT.temp;
@@ -49,17 +50,25 @@ function createElement(
 	element.alt = alt;
 	element.src = src;
 	return element;
- };
+};
 
- function addToFavList(cityName){
+function addToFavList(cityName){
 	let favCity = createElement('li', CLASS.FAV_CITY, cityName);
 	favCity.setAttribute('id', cityName);
 	ELEMENT.FAV_LIST.prepend(favCity);
- }
+}
 
- function deleteFromFavList(cityName){
+function deleteFromFavList(cityName){
 	let favCity = document.getElementById(cityName);
 	favCity.remove();
- }
+}
 
-export {renderNow, renderDetails, renderForecast, addToFavList, deleteFromFavList};
+function likeIconUpdate(){
+	(FAV_CITIES_STORAGE.has(TARGET_WEATHER_OBJECT.name)) ? 
+		ELEMENT.LIKE_BUTTON.src = ICONS_SRC.HERAT_BLACK :
+		ELEMENT.LIKE_BUTTON.src = ICONS_SRC.HEART;
+
+	return ELEMENT.LIKE_BUTTON;
+}
+
+export {renderNow, renderDetails, renderForecast, addToFavList, deleteFromFavList, likeIconUpdate};
