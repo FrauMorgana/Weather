@@ -99,7 +99,7 @@ function createForecastList(data, list) {
 			'',
 			'',
 			`${date.getDate()} ${MONTHES[month]}`,
-			`${date.getHours()}`.padStart(2, '0') + `:` + `${date.getMinutes()}`.padStart(2, '0')
+			date.toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'})
 		);
 
 		list.push(object);
@@ -111,10 +111,7 @@ function calcLocalTime(time, targetShift){
 	const userUTCshift = (userTime.getTimezoneOffset()) * 60 *1000;
 	const calcTargetStamp = ((time * 1000) + userUTCshift + (targetShift * 1000));
 	const targetDate = new Date(calcTargetStamp);
-	const finalHours = targetDate.getHours();
-	const finalMinutes = targetDate.getMinutes();
-	const result = `${finalHours}`.padStart(2, '0') + `:` + `${finalMinutes}`.padStart(2, '0');
-
+	const result = targetDate.toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'});
 	return result;
 }
 
