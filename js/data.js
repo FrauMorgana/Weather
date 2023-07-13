@@ -59,4 +59,26 @@ const MONTHES = [
 	"December"
 ]
 
-export {ICONS_SRC, ELEMENT, CLASS, MONTHES, DATA};
+function WeatherObject(
+	name = 'Rome',
+	state = '',
+	temp = '',
+	feels_like = '',
+	icon = '',
+	sunrise = '',
+	sunset = '',
+	date = '',
+	time = ''
+){
+	this.name = name;
+	this.state = state;
+	this.temp = temp;
+	this.feels_like = feels_like;
+	this.icon = icon;
+	this.sunrise = sunrise;
+	this.sunset = sunset;
+	this.date = date;
+	this.time = time;
+}
+
+export {ICONS_SRC, ELEMENT, CLASS, MONTHES, DATA, WeatherObject};

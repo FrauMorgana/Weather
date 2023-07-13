@@ -1,10 +1,10 @@
-import { DATA, ELEMENT, MONTHES } from "./data.js";
+import { DATA, ELEMENT, MONTHES, WeatherObject } from "./data.js";
 import {likeInteraction, } from "./favorites.js";
-import {saveCurrentCity, saveFavList, getLastCity, getSavedList, renderSavedList} from "./storage.js";
+import {saveCurrentCity, getLastCity, getSavedList, renderSavedList} from "./storage.js";
 import { renderNow, renderDetails, renderForecast, likeIconUpdate } from "./render.js";
 
 const FORECAST_LIST = [];
-const TARGET_WEATHER_OBJECT = {};
+const TARGET_WEATHER_OBJECT = new WeatherObject();
 
 document.addEventListener('DOMContentLoaded', onloadTab);
 ELEMENT.FORM.addEventListener('submit', formHandler);
@@ -14,8 +14,8 @@ ELEMENT.LIKE_BUTTON.addEventListener('click', likeHandler);
 
 function onloadTab(){
 	if (localStorage.length < 2){
-		getWeatherData(DATA.SERVER_URL, DATA.WEATHER, DATA.DEFAULT_CITY, DATA.APIKEY);
-		getWeatherData(DATA.SERVER_URL, DATA.FORECAST, DATA.DEFAULT_CITY, DATA.APIKEY);
+		getWeatherData(DATA.SERVER_URL, DATA.WEATHER, TARGET_WEATHER_OBJECT.name, DATA.APIKEY);
+		getWeatherData(DATA.SERVER_URL, DATA.FORECAST, TARGET_WEATHER_OBJECT.name, DATA.APIKEY);
 	}
 	else {
 		renderSavedList(getSavedList());
@@ -53,7 +53,7 @@ function getWeatherData(serverUrl, end, cityName, apiKey) {
 			.then(() => renderDetails())
 			.then(() => saveCurrentCity())
 			.then(() => likeIconUpdate())
-			.catch(error => alert(error.message));
+			.catch(error => alert(error));
 	}
 	else {
 		fetch(url)
@@ -82,36 +82,38 @@ function createWeatherObject(data, object) {
 
 function createForecastList(data, list) {
 	list.splice(0, list.length);
-	let listFromData = data.list;
+	const listFromData = data.list;
 	for (let item of listFromData) {
-		let object = {};
+		const date = new Date(item.dt * 1000);
+		const month = date.getMonth();
+		const state = item.weather[0].main;
+		const temp = DATA.KELCIN_TO_CELSIUS(item.main.temp);
+		const feels_like = DATA.KELCIN_TO_CELSIUS(item.main.feels_like);
 
-		let date = new Date(item.dt * 1000);
-		let month = date.getMonth();
-		let state = item.weather[0].main;
-		let temp = DATA.KELCIN_TO_CELSIUS(item.main.temp);
-		let feels_like = DATA.KELCIN_TO_CELSIUS(item.main.feels_like);
-
-		object.forecastDate = `${date.getDate()} ${MONTHES[month]}`;
-		object.forecastTime = `${date.getHours()}`.padStart(2, '0') + `:` + `${date.getMinutes()}`.padStart(2, '0');
-		object.forecastTemp = `Temperature: ${temp}`;
-		object.forecastFeelsLike = `Feels like: ${feels_like}`;
-		object.forecastState = state;
-		object.forecastIcon = `./img/weather-state/${state}.svg`;
-		object.name = data.city.name;
+		const object = new WeatherObject(
+			data.city.name,
+			state,
+			`Temperature: ${temp}`,
+			`Feels like: ${feels_like}`,
+			`./img/weather-state/${state}.svg`,
+			'',
+			'',
+			`${date.getDate()} ${MONTHES[month]}`,
+			`${date.getHours()}`.padStart(2, '0') + `:` + `${date.getMinutes()}`.padStart(2, '0')
+		);
 
 		list.push(object);
 	}
 }
 
 function calcLocalTime(time, targetShift){
-	let userTime = new Date();
-	let userUTCshift = (userTime.getTimezoneOffset()) * 60 *1000;
-	let calcTargetStamp = ((time * 1000) + userUTCshift + (targetShift * 1000));
-	let targetDate = new Date(calcTargetStamp);
-	let finalHours = targetDate.getHours();
-	let finalMinutes = targetDate.getMinutes();
-	let result = `${finalHours}`.padStart(2, '0') + `:` + `${finalMinutes}`.padStart(2, '0');
+	const userTime = new Date();
+	const userUTCshift = (userTime.getTimezoneOffset()) * 60 *1000;
+	const calcTargetStamp = ((time * 1000) + userUTCshift + (targetShift * 1000));
+	const targetDate = new Date(calcTargetStamp);
+	const finalHours = targetDate.getHours();
+	const finalMinutes = targetDate.getMinutes();
+	const result = `${finalHours}`.padStart(2, '0') + `:` + `${finalMinutes}`.padStart(2, '0');
 
 	return result;
 }

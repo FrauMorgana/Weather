@@ -25,12 +25,12 @@ function renderForecast(){
 	for (let item of FORECAST_LIST) {
 		let forecastItem = createElement('div', CLASS.FORECAST_ITEM);
 
-		let forecastDate = createElement('span', CLASS.FORECAST_DATE, item.forecastDate);
-		let forecastTime = createElement('span', CLASS.FORECAST_TIME, item.forecastTime);
-		let forecastTemp = createElement('span', CLASS.FORECAST_TEMP, item.forecastTemp);
-		let forecastState = createElement('span', CLASS.FORECAST_STATE, item.forecastState);
-		let forecastFeelsLike = createElement('span', CLASS.FORECAST_FEELS_LIKE, item.forecastFeelsLike);
-		let forecastIcon = createElement('img', CLASS.FORECAST_ICON, '', 'icon-item', item.forecastIcon);
+		let forecastDate = createElement('span', CLASS.FORECAST_DATE, item.date);
+		let forecastTime = createElement('span', CLASS.FORECAST_TIME, item.time);
+		let forecastTemp = createElement('span', CLASS.FORECAST_TEMP, item.temp);
+		let forecastState = createElement('span', CLASS.FORECAST_STATE, item.state);
+		let forecastFeelsLike = createElement('span', CLASS.FORECAST_FEELS_LIKE, item.feels_like);
+		let forecastIcon = createElement('img', CLASS.FORECAST_ICON, '', 'icon-item', item.icon);
 
 		forecastItem.append(forecastDate, forecastTime, forecastTemp, forecastState, forecastFeelsLike, forecastIcon);
 		ELEMENT.FORECAST_WRAPPER.append(forecastItem);
