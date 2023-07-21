@@ -43,24 +43,22 @@ function likeHandler(){
 	likeIconUpdate();
 }
 
-function getWeatherData(serverUrl, end, cityName, apiKey) {
+async function getWeatherData(serverUrl, end, cityName, apiKey) {
 	const url = `${serverUrl}${end}?q=${cityName}&appid=${apiKey}`;
-	if (end === DATA.WEATHER){
-		fetch(url)
-			.then((response) => response.json())
-			.then((weatherData) => createWeatherObject(weatherData, TARGET_WEATHER_OBJECT))
-			.then(() => renderNow())
-			.then(() => renderDetails())
-			.then(() => saveCurrentCity())
-			.then(() => likeIconUpdate())
-			.catch(error => alert(error));
+	try {const response = await fetch(url);
+	const data = await response.json();
+	if (end === DATA.WEATHER) {
+		createWeatherObject(data, TARGET_WEATHER_OBJECT);
+		renderNow();
+		renderDetails();
+		saveCurrentCity();
+		likeIconUpdate();
 	}
 	else {
-		fetch(url)
-			.then((response) => response.json())
-			.then(data => createForecastList(data, FORECAST_LIST))
-			.then(() => renderForecast())
-			.catch(error => alert(error.message));
+		createForecastList(data, FORECAST_LIST);
+		renderForecast();
+	}} catch (err){
+		alert(err.message);
 	}
 }
 
