@@ -7,6 +7,10 @@ const DATA = {
 	KELCIN_TO_CELSIUS: (k) => `${Math.round(k - 273.15)}°`,
 }
 
+const ERROR = {
+	CITY_NOT_FOUND: 'City not found. Please enter correct city name.',
+}
+
 const ICONS_SRC = {
 	HEART: './img/heart-shape.svg',
 	HERAT_BLACK: './img/heart-shape-black.svg',
@@ -81,4 +85,4 @@ function WeatherObject(
 	this.time = time;
 }
 
-export {ICONS_SRC, ELEMENT, CLASS, MONTHES, DATA, WeatherObject};
+export {ICONS_SRC, ELEMENT, CLASS, MONTHES, DATA, WeatherObject, ERROR};

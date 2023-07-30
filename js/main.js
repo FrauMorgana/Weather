@@ -1,4 +1,4 @@
-import { DATA, ELEMENT, MONTHES, WeatherObject } from "./data.js";
+import { DATA, ELEMENT, MONTHES, WeatherObject, ERROR } from "./data.js";
 import {likeInteraction, } from "./favorites.js";
 import {saveCurrentCity, getLastCity, getSavedList, renderSavedList} from "./storage.js";
 import { renderNow, renderDetails, renderForecast, likeIconUpdate } from "./render.js";
@@ -14,27 +14,23 @@ ELEMENT.LIKE_BUTTON.addEventListener('click', likeHandler);
 
 function onloadTab(){
 	if (localStorage.length < 2){
-		getWeatherData(DATA.SERVER_URL, DATA.WEATHER, TARGET_WEATHER_OBJECT.name, DATA.APIKEY);
-		getWeatherData(DATA.SERVER_URL, DATA.FORECAST, TARGET_WEATHER_OBJECT.name, DATA.APIKEY);
+		getWeatherData(TARGET_WEATHER_OBJECT.name);
 	}
 	else {
 		renderSavedList(getSavedList());
-		getWeatherData(DATA.SERVER_URL, DATA.WEATHER, getLastCity(), DATA.APIKEY);
-		getWeatherData(DATA.SERVER_URL, DATA.FORECAST, getLastCity(), DATA.APIKEY);
+		getWeatherData(getLastCity());
 	}
 }
 
 function formHandler(event) {
 	event.preventDefault();
-  	getWeatherData(DATA.SERVER_URL, DATA.WEATHER, ELEMENT.INPUT.value, DATA.APIKEY);
-	getWeatherData(DATA.SERVER_URL, DATA.FORECAST, ELEMENT.INPUT.value, DATA.APIKEY);
+  	getWeatherData(ELEMENT.INPUT.value);
 	clearInput();
 }
 
 function favListHandler(event){
 	if (event.target.closest('.fav-city')){
-		getWeatherData(DATA.SERVER_URL, DATA.WEATHER, event.target.textContent, DATA.APIKEY);
-		getWeatherData(DATA.SERVER_URL, DATA.FORECAST, event.target.textContent, DATA.APIKEY);
+		getWeatherData(event.target.textContent);
 	} else return null;
 }
 
@@ -43,22 +39,38 @@ function likeHandler(){
 	likeIconUpdate();
 }
 
-async function getWeatherData(serverUrl, end, cityName, apiKey) {
-	const url = `${serverUrl}${end}?q=${cityName}&appid=${apiKey}`;
-	try {const response = await fetch(url);
-	const data = await response.json();
-	if (end === DATA.WEATHER) {
-		createWeatherObject(data, TARGET_WEATHER_OBJECT);
+async function getWeatherData(cityName) {
+	const urlW = `${DATA.SERVER_URL}${DATA.WEATHER}?q=${cityName}&appid=${DATA.APIKEY}`;
+	const urlF = `${DATA.SERVER_URL}${DATA.FORECAST}?q=${cityName}&appid=${DATA.APIKEY}`;
+
+	try {
+		const responseW = await fetch(urlW);
+		const responseF = await fetch(urlF);
+
+		if (responseW.status === 404 || responseF.status ===404) {
+			throw new InputError(ERROR.CITY_NOT_FOUND);
+		};
+		const dataW = await responseW.json();
+		const dataF = await responseF.json();
+
+		createWeatherObject(dataW, TARGET_WEATHER_OBJECT);
 		renderNow();
 		renderDetails();
 		saveCurrentCity();
 		likeIconUpdate();
-	}
-	else {
-		createForecastList(data, FORECAST_LIST);
+		
+		createForecastList(dataF, FORECAST_LIST);
 		renderForecast();
-	}} catch (err){
+
+	} catch (err){
 		alert(err.message);
+	}
+}
+
+class InputError extends Error {
+	constructor(message) {
+		super(message);
+		this.name = this.constructor.name;
 	}
 }
 
